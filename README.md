@@ -5,7 +5,9 @@ This one only has 3 entities:
 *  Client
 *  Purchase
 
-I did not add any comment documentation to the functions and all due to their simplicity, and my lack of time.
+There is also a basic Exception handling system for very basic exceptions (Not found).
+
+Even tho I do not like it, I didn't add any comment documentation to the functions and all due to their simplicity, and my lack of time.
 
 To be able to run it you have to create a .env file like the following:
 ```
