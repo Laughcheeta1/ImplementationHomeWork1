@@ -1,9 +1,9 @@
 package com.implementacioneintegracion.Trabajo_Clase_1.Service;
 
 import com.implementacioneintegracion.Trabajo_Clase_1.DataAccessLayer.ProductDao;
+import com.implementacioneintegracion.Trabajo_Clase_1.Exceptions.CustomExceptions.ProductNotFoundException;
 import com.implementacioneintegracion.Trabajo_Clase_1.Models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,23 +28,23 @@ public class ProductServiceImplementation implements ProductService{
     }
 
     @Override
-    public Product getProductById(Long id) throws Exception {
-        return productDao.findById(id).orElseThrow(() -> new Exception("Product not found"));
+    public Product getProductById(Long id) {
+        return productDao.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
-    public Product getProductByName(String name) throws Exception {
-        return productDao.findByName(name).orElseThrow(() -> new Exception("Product not found"));
+    public Product getProductByName(String name) {
+        return productDao.findByName(name).orElseThrow(() -> new ProductNotFoundException(name));
     }
 
     @Override
-    public int getStockQuantityProduct(Long id) throws Exception {
-        return productDao.findStockById(id).orElseThrow(() -> new Exception("Product not found"));
+    public int getStockQuantityProduct(Long id) {
+        return productDao.findStockById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
-    public void updateProduct(Long id, Product product) throws Exception {
-        Product productInDb = productDao.findById(id).orElseThrow(() -> new Exception("product not found"));
+    public void updateProduct(Long id, Product product) {
+        Product productInDb = productDao.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 
         productInDb.setName(product.getName());
         productInDb.setDescription(product.getDescription());

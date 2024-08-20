@@ -1,5 +1,6 @@
 package com.implementacioneintegracion.Trabajo_Clase_1.Service;
 
+import com.implementacioneintegracion.Trabajo_Clase_1.Exceptions.CustomExceptions.ClientNotFoundException;
 import com.implementacioneintegracion.Trabajo_Clase_1.Models.Client;
 
 import com.implementacioneintegracion.Trabajo_Clase_1.DataAccessLayer.ClientDao;
@@ -22,24 +23,24 @@ public class ClientServiceImplementation implements ClientService {
 
     @Override
     public Client getClientById(Long id) {
-        return clientDao.findById(id).orElse(null);
+        return clientDao.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
     }
 
     @Override
     public Client getClientByEmail(String email) {
-        return clientDao.findByEmail(email).orElse(null);
+        return clientDao.findByEmail(email).orElseThrow(() -> new ClientNotFoundException("email: " + email));
     }
 
     @Override
     public Client getClientByPhoneNumber(String phoneNumber) {
-        return clientDao.findByPhoneNumber(phoneNumber).orElse(null);
+        return clientDao.findByPhoneNumber(phoneNumber).orElseThrow(() -> new ClientNotFoundException("phone number: " + phoneNumber));
     }
 
     @Override
     public void updateClient(Long id, Client client) throws Exception {
         Client clientInDb = clientDao.findById(id).orElse(null);
         if (clientInDb == null)
-            throw new Exception("Client does not exist");
+            throw new ClientNotFoundException(id);
 
         if (! clientInDb.getId().equals(client.getId()))
             throw new Exception("Cannot change the id of the client");

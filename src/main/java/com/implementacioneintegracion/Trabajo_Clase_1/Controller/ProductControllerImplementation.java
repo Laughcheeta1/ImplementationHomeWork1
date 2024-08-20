@@ -23,44 +23,44 @@ public class ProductControllerImplementation implements ProductController{
     @PostMapping("/")
     public ResponseEntity<String> saveProduct(@RequestBody   Product product) {
         productService.saveProduct(product);
-        return new ResponseEntity<String>("Product successfully created", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Product successfully created");
     }
 
     @Override
     @GetMapping("/")
     public ResponseEntity<List<Product>> getAllProducts() {
-        return new ResponseEntity<List<Product>>(productService.getAllProducts(), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts());
     }
 
     @Override
     @GetMapping("/id/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws Exception {
-        return new ResponseEntity<Product>(productService.getProductById(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
     }
 
     @Override
     @GetMapping("/name/{name}")
-    public ResponseEntity<Product> getProductByName(@PathVariable("name") String name) throws Exception {
-        return new ResponseEntity<Product>(productService.getProductByName(name), HttpStatus.OK);
+    public ResponseEntity<Product> getProductByName(@PathVariable("name") String name) throws Exception {;
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductByName(name));
     }
 
     @Override
     @GetMapping("/stock/{id}")
     public ResponseEntity<Integer> getStockQuantityProduct(@PathVariable("id") Long id) throws Exception {
-        return new ResponseEntity<Integer>(productService.getStockQuantityProduct(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getStockQuantityProduct(id));
     }
 
     @Override
     @PutMapping("/")
     public ResponseEntity<String> updateProduct(@RequestBody Product product) throws Exception {
         productService.updateProduct(product.getId(), product);
-        return new ResponseEntity<String>("Product Updated Successfully", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Product Updated Successfully");
     }
 
     @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>("Product Deleted Successfully", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Product Deleted Successfully");
     }
 }

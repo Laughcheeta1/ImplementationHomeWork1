@@ -8,9 +8,9 @@ import java.util.List;
 
 
 public interface PurchaseService {
-    public void savePurchase(PurchaseRequest purchaseRequest) throws Exception;
+    public void savePurchase(PurchaseRequest purchaseRequest);
 
-    public Purchase getPurchaseById(Long id) throws Exception;
+    public Purchase getPurchaseById(Long id);
 
     public List<Purchase> getPurchaseByClientId(Long id) throws Exception;
 

@@ -23,38 +23,38 @@ public class ClientControllerImplementation implements ClientController {
     @Override
     public ResponseEntity<String> addClient(Client client) {
         clientService.saveClient(client);
-        return new ResponseEntity<String>("Client successfully created", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Client successfully created");
     }
 
     @GetMapping("/id/{id}")
     @Override
     public ResponseEntity<Client> getClientById(@PathVariable("id") Long id) {
-        return new ResponseEntity<Client>(clientService.getClientById(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(clientService.getClientById(id));
     }
 
     @GetMapping("/email/{email}")
     @Override
     public ResponseEntity<Client> getClientByEmail(@PathVariable("email") String email) {
-        return new ResponseEntity<Client>(clientService.getClientByEmail(email), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(clientService.getClientByEmail(email));
     }
 
     @GetMapping("/phoneNumber/{phoneNumber}")
     @Override
     public ResponseEntity<Client> getClientByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
-        return new ResponseEntity<Client>(clientService.getClientByPhoneNumber(phoneNumber), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(clientService.getClientByPhoneNumber(phoneNumber));
     }
 
     @PutMapping("")
     @Override
     public ResponseEntity<String> updateClient(@RequestBody Client newClient) throws Exception {
         clientService.updateClient(newClient.getId(), newClient);
-        return new ResponseEntity<String>("Client was updated successfully", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Client was updated successfully");
     }
 
     @DeleteMapping("{id}")
     @Override
     public ResponseEntity<String> deleteClient(@PathVariable("id") Long id) {
         clientService.deleteClient(id);
-        return new ResponseEntity<String>("Client deleted successfully", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Client deleted successfully");
     }
 }

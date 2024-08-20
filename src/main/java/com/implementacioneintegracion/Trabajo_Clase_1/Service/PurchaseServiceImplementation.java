@@ -1,10 +1,11 @@
 package com.implementacioneintegracion.Trabajo_Clase_1.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.implementacioneintegracion.Trabajo_Clase_1.DataAccessLayer.ProductDao;
 import com.implementacioneintegracion.Trabajo_Clase_1.DataAccessLayer.ProductPurchaseDao;
 import com.implementacioneintegracion.Trabajo_Clase_1.DataAccessLayer.PurchaseDao;
 import com.implementacioneintegracion.Trabajo_Clase_1.DataAccessLayer.ClientDao;
+import com.implementacioneintegracion.Trabajo_Clase_1.Exceptions.CustomExceptions.ProductNotFoundException;
+import com.implementacioneintegracion.Trabajo_Clase_1.Exceptions.CustomExceptions.PurchaseNotFoundException;
 import com.implementacioneintegracion.Trabajo_Clase_1.Models.*;
 
 import com.implementacioneintegracion.Trabajo_Clase_1.Models.Dto.ItemCountDTO;
@@ -40,8 +41,11 @@ public class PurchaseServiceImplementation implements PurchaseService {
 
     @Transactional
     @Override
-    public void savePurchase(PurchaseRequest purchaseRequest) throws Exception {
-        Client client = clientDao.findById(purchaseRequest.getClientId()).orElseThrow(() -> new Exception("Customer not found"));
+    public void savePurchase(PurchaseRequest purchaseRequest) {
+        Client client = clientDao.findById(purchaseRequest.getClientId())
+                .orElseThrow(
+                        () -> new PurchaseNotFoundException(purchaseRequest.getClientId())
+                );
 
         Purchase purchase = new Purchase();
         purchase.setClient(client);
@@ -52,7 +56,7 @@ public class PurchaseServiceImplementation implements PurchaseService {
         purchaseRequest.getItems().forEach((item) -> {
             ProductPurchase p = new ProductPurchase();
             p.setPurchase(purchase);
-            p.setProduct(productDao.findById(item.productId()).orElseThrow(() -> new RuntimeException("Item not found")));
+            p.setProduct(productDao.findById(item.productId()).orElseThrow(() -> new ProductNotFoundException(item.productId())));
             items.add(p);
         } );
 
@@ -60,13 +64,15 @@ public class PurchaseServiceImplementation implements PurchaseService {
     }
 
     @Override
-    public Purchase getPurchaseById(Long id) throws Exception {
-        return purchaseDao.findById(id).orElseThrow(() -> new Exception("Purchase not found"));
+    public Purchase getPurchaseById(Long id) {
+        return purchaseDao.findById(id).orElseThrow(() -> new PurchaseNotFoundException(id));
     }
 
     @Override
-    public List<Purchase> getPurchaseByClientId(Long id) throws Exception {
-        return purchaseDao.findByClientId(id).orElseThrow(() -> new Exception("Purchase not found"));
+    public List<Purchase> getPurchaseByClientId(Long id) {
+        // NOTE: technically, this should not return an PurchaseNotFound exception, since perhaps a client
+        // has not made any purchases yet. However, I have other projects to attend.
+        return purchaseDao.findByClientId(id).orElseThrow(() -> new PurchaseNotFoundException(id));
     }
 
     @Override

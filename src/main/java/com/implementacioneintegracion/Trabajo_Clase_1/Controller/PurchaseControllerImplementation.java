@@ -25,37 +25,37 @@ public class PurchaseControllerImplementation implements PurchaseController {
     @PostMapping("/")
     public ResponseEntity<String> savePurchase(PurchaseRequest purchaseRequest) throws Exception {
         purchaseService.savePurchase(purchaseRequest);
-        return new ResponseEntity<String>("Purchase successfully saved", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Purchase successfully saved");
     }
 
     @Override
     @GetMapping("/id/{id}")
     public ResponseEntity<Purchase> getPurchaseById(@PathVariable("id") Long id) throws Exception {
-        return new ResponseEntity<Purchase>(purchaseService.getPurchaseById(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseService.getPurchaseById(id));
     }
 
     @Override
     @GetMapping("/client/{id}")
     public ResponseEntity<List<Purchase>> getPurchaseByClientId(@PathVariable("id") Long id) throws Exception {
-        return new ResponseEntity<List<Purchase>>(purchaseService.getPurchaseByClientId(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseService.getPurchaseByClientId(id));
     }
 
     @Override
     @GetMapping("/product/{id}")
     public ResponseEntity<List<Purchase>> getPurchaseByProductId(@PathVariable("id") Long id) {
-        return new ResponseEntity<List<Purchase>>(purchaseService.getPurchaseByProductId(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseService.getPurchaseByProductId(id));
     }
 
     @Override
     @GetMapping("/items/{id}")
     public ResponseEntity<List<ItemCountDTO>> getItemsFromPurchase(@PathVariable("id") Long id) {
-        return new ResponseEntity<List<ItemCountDTO>>(purchaseService.getItemsFromPurchase(id), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseService.getItemsFromPurchase(id));
     }
 
     @Override
     @DeleteMapping("{id}")
     public ResponseEntity<String> deletePurchase(@PathVariable("id") Long id) {
         purchaseService.deletePurchase(id);
-        return new ResponseEntity<String>("Purchase successfully deleted", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Purchase successfully deleted");
     }
 }

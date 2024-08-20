@@ -11,13 +11,13 @@ public interface ProductService {
 
     public List<Product> getAllProducts();
 
-    public Product getProductById(Long id) throws Exception;
+    public Product getProductById(Long id);
 
-    public Product getProductByName(String name) throws Exception;
+    public Product getProductByName(String name);
 
-    public int getStockQuantityProduct(Long id) throws Exception;
+    public int getStockQuantityProduct(Long id);
 
-    public void updateProduct(Long id, Product product) throws Exception;
+    public void updateProduct(Long id, Product product);
 
     public void deleteProduct(Long id);
 
