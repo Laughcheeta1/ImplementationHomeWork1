@@ -1,0 +1,8 @@
+###
+GET localhost:8080/product/
+
+###
+GET localhost:8080/product/id/1
+
+###
+GET localhost:8080/purchase/product/1
